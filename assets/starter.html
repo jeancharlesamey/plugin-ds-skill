@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New plugin UI</title>
+<!-- Self-hosted: both files below live next to this one, no CDN/npm required -->
+<link rel="stylesheet" href="figma-plugin-ds.css">
+<style>
+  /* Page-specific layout only — every class below "type", "button", etc.
+     comes from figma-plugin-ds.css. Swap this <style> block for your own
+     layout; leave the component markup and classes as-is. */
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--white); }
+  .app { display: flex; flex-direction: column; height: 100vh; }
+  .titlebar {
+    height: var(--size-large);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--size-small);
+    border-bottom: 1px solid var(--silver);
+  }
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--size-small);
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-xsmall);
+  }
+  /* IMPORTANT: without this, once .content's children overflow the
+     available height, the browser's default flex-shrink:1 will squash
+     every row shorter than its intended height (e.g. a 32px switch row
+     compressed to ~19px, desyncing the toggle knob from its label)
+     instead of just scrolling. flex-shrink:0 forces rows to keep their
+     real height and lets overflow-y:auto do the scrolling as intended. */
+  .content > * { flex-shrink: 0; }
+  .footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--size-xxsmall);
+    padding: var(--size-xxsmall) var(--size-small);
+    border-top: 1px solid var(--silver);
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="titlebar">
+      <div class="type type--bold">New Plugin</div>
+    </div>
+
+    <div class="content">
+      <div class="section-title">Settings</div>
+
+      <div class="input">
+        <input type="input" class="input__field" placeholder="Layer name">
+      </div>
+
+      <select id="exampleSelect" class="select-menu">
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </select>
+
+      <div class="checkbox">
+        <input id="exampleCheckbox" type="checkbox" class="checkbox__box">
+        <label for="exampleCheckbox" class="checkbox__label">Enable feature</label>
+      </div>
+
+      <div class="switch">
+        <input class="switch__toggle" type="checkbox" id="exampleSwitch">
+        <label class="switch__label" for="exampleSwitch">Auto-run</label>
+      </div>
+
+      <ul class="disclosure">
+        <li class="disclosure__item disclosure--expanded">
+          <div class="disclosure__label">Advanced</div>
+          <div class="disclosure__content">More options go here.</div>
+        </li>
+      </ul>
+
+      <div class="onboarding-tip">
+        <div class="icon icon--styles"></div>
+        <div class="onboarding-tip__msg">Tip: select a layer to get started.</div>
+      </div>
+
+      <div class="flex row align-items-center">
+        <!-- plain one-shot action icon-button: no data-toggle, so
+             iconButton.init() only gives it keyboard support, not a
+             persisted --selected state — pair it with your own click
+             handler for whatever the action actually does -->
+        <div class="icon-button" id="exampleCloseButton">
+          <div class="icon icon--close"></div>
+        </div>
+        <!-- toggle icon-button: data-toggle makes iconButton.init() also
+             toggle icon-button--selected + aria-pressed on click/keyboard -->
+        <div class="icon-button" data-toggle>
+          <div class="icon icon--visible"></div>
+        </div>
+        <!-- disabled: icon-button--disabled fades it (same opacity:0.3 as
+             checkbox/radio/switch/button) and iconButton.init() forces
+             tabindex="-1" so it's inert, not just dimmed -->
+        <div class="icon-button icon-button--disabled">
+          <div class="icon icon--trash"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button class="button button--secondary">Cancel</button>
+      <button class="button button--primary">Run</button>
+    </div>
+  </div>
+
+  <script src="figma-plugin-ds.js"></script>
+  <script>
+    selectMenu.init();
+    disclosure.init();
+    iconButton.init();
+  </script>
+</body>
+</html>
