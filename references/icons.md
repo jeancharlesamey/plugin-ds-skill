@@ -1,6 +1,6 @@
 # plugin-ds-skill — icon list
 
-86 icons ship with this system, each already inlined as a CSS data-URI background
+88 icons ship with this system, each already inlined as a CSS data-URI background
 image in `assets/figma-plugin-ds.css` under a `.icon--{name}` class — use them with
 `<div class="icon icon--{name}"></div>` (see `components.md` for the full Icon
 component pattern, including recoloring and the spin animation).
@@ -43,6 +43,8 @@ hidden                          search
 horizontal-padding              settings
 hyperlink
 image
+multiselect
+text-replacement
 ```
 
 ## Drawing a new icon in the same style
